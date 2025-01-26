@@ -4,13 +4,16 @@ from .Scale import Scale
 
 ## Whole Variants
 WW = Scale(pygame.Vector2(1, 1)) # Whole x Whole
-
+WX = Scale(pygame.Vector2(1, 0)) # Whole x Whole
+WY = Scale(pygame.Vector2(0, 1)) # Whole x Whole
 
 ## Half Variants
 WH = Scale(pygame.Vector2(1, 0.5)) # Whole x Half
 HW = Scale(pygame.Vector2(0.5, 1)) # Half x Whole
 HH = Scale(pygame.Vector2(0.5, 0.5)) # Half x Half
 
+HX = Scale(pygame.Vector2(0.5, 0)) # Half Horizontal
+HY = Scale(pygame.Vector2(0, 0.5)) # Half Vertical
 
 ## Third Variants
 TW = Scale(pygame.Vector2(0.3, 1)) # Third x Whole

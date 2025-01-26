@@ -10,7 +10,10 @@ class Scale:
         X = Rect.width * self.Size.x
         Y = Rect.height * self.Size.y
 
+        X = X or Widget.Size.x
+        Y = Y or Widget.Size.y
+
         Size = pygame.Vector2(X, Y)
-        Widget.Size = Size
+        Widget.SetSize(Size)
 
         #Widget.Update()

@@ -1,10 +1,10 @@
 import pygame
 
-from .Theme import Theme
-from .Widgets.Screen import Widget as Screen
+from ..Theme import Theme
+from ..Widgets.Screen import Widget as Screen
 
 class Widget:
-    def __init__(self, Theme: Theme, Title: str, Position: pygame.Vector2, Size: pygame.Vector2, Resize = True, Icon = None):
+    def __init__(self, Theme: Theme, Title: str, Size: pygame.Vector2, Position: pygame.Vector2 = pygame.Vector2(0, 0), Resize = True, Icon = None):
         self.Theme = Theme
         self.Position = Position
         self.Resize = (lambda: pygame.RESIZABLE if Resize else 0)()
@@ -33,10 +33,9 @@ class Widget:
         self.Screen = Screen
         Screen.SetParent(self)
 
-
     def Loop(self):
         self.Active = True
-        
+
         if self.Screen != None:
             while self.Active: 
                 self.Surface.fill(self.Theme.Background) 

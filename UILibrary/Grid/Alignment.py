@@ -12,5 +12,5 @@ class Alignment:
         Y = (Rect.height * self.Scale.y) - (Widget.Size.y * self.Anchor.y)
 
         Position = pygame.Vector2(X, Y)
-        Widget.Position = Position
+        Widget.SetPosition(Position)
         #Widget.Update()

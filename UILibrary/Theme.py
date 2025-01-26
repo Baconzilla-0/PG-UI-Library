@@ -14,8 +14,13 @@ class Theme:
         self.InputHovered = pygame.Color(200, 200, 200)
         self.InputFocused = pygame.Color(120, 120, 120)
 
+        self.Selected = pygame.Color(180, 180, 255)
+
+        self.List = pygame.Color(140, 140, 140)
+        self.Scrollbar = pygame.Color(100, 100, 100)
+
         self.Foreground = pygame.Color(15, 15, 15)
 
         self.Spacing = 10
 
-        self.Font = "Papyrus"
+        self.Font = ""

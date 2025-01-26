@@ -3,7 +3,7 @@ import pygame
 from .. import Utils
 from ..Widget import Widget as Widget
 
-class Widget(Widget):
+class Input(Widget):
     def __init__(self, Parent: Widget, Placeholder: str, FontScale, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100), Theme = None):
         super().__init__(Parent, Theme or Parent.Theme, Position, Size)
         self.FontScale = FontScale
@@ -17,7 +17,7 @@ class Widget(Widget):
         self.Callback = Callback
 
     def Update(self, Event: pygame.event.Event = None):
-        self.Font = pygame.font.SysFont(self.Theme.Font, self.Size.y * self.FontScale)
+        self.Font = pygame.font.Font(self.Theme.Font, self.Size.y * self.FontScale)
 
         if self.Hovered == False:
             self.Surface.fill(self.Theme.InputIdle)
