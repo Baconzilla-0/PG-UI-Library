@@ -51,12 +51,14 @@ class TextButton(Button):
 
         self.Text = Text
 
+    def SetText(self, Text: str):
+        self.Text = Text
+
     def Update(self):
         super().Evaluate()
 
         self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
-        Utils.TextWrapped(self.Surface, self.Text, self.Font, self.Theme.Foreground, self.PaddingRect)
-
+        Utils.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
         super().Update()
 
 

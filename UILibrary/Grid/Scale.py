@@ -5,7 +5,10 @@ class Scale:
         self.Size = Size
 
     def Apply(self, Widget):
-        Rect = Widget.Parent.Surface.get_rect()
+        try:
+            Rect = Widget.Parent.PaddingRect
+        except Exception:
+            Rect = Widget.Parent.Surface.get_rect()
 
         X = Rect.width * self.Size.x
         Y = Rect.height * self.Size.y

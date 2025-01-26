@@ -16,13 +16,13 @@ HX = Scale(pygame.Vector2(0.5, 0)) # Half Horizontal
 HY = Scale(pygame.Vector2(0, 0.5)) # Half Vertical
 
 ## Third Variants
-TW = Scale(pygame.Vector2(0.3, 1)) # Third x Whole
-WT = Scale(pygame.Vector2(1, 0.3)) # Whole x Third
+TW = Scale(pygame.Vector2(1/3, 1)) # Third x Whole
+WT = Scale(pygame.Vector2(1, 1/3)) # Whole x Third
 
-TH = Scale(pygame.Vector2(0.3, 0.5)) # Third x Half
-HT = Scale(pygame.Vector2(0.5, 0.3)) # Half x Third
+TH = Scale(pygame.Vector2(1/3, 0.5)) # Third x Half
+HT = Scale(pygame.Vector2(0.5, 1/3)) # Half x Third
 
-TT = Scale(pygame.Vector2(0.3, 0.3)) # Third x Third
+TT = Scale(pygame.Vector2(1/3, 1/3)) # Third x Third
 
 
 ## Quarter Variants

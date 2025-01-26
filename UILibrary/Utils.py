@@ -26,10 +26,11 @@ def Text(Surface: pygame.Surface, Text: str, Font: str, Colour: pygame.Color, Si
     TextSurface = FontFile.render(Text, True, Colour)
     Surface.blit(TextSurface, Position)
 
-def blit_text(surface, text, pos, font: pygame.font.Font, color=pygame.Color('black')):
+def blit_text(surface: pygame.Surface, text, pos, font: pygame.font.Font, color: pygame.Color, area: pygame.Rect):
+
     words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
     space = font.size(' ')[0]  # The width of a space.
-    max_width, max_height = surface.get_size()
+    max_width, max_height = area.width, area.height
     x, y = pos
     for line in words:
         for word in line:
@@ -38,7 +39,7 @@ def blit_text(surface, text, pos, font: pygame.font.Font, color=pygame.Color('bl
             if x + word_width >= max_width:
                 x = pos[0]  # Reset the x.
                 y += word_height  # Start on new row.
-            surface.blit(word_surface, (x, y))
+            surface.blit(word_surface, (x + area.left, y + area.top))
             x += word_width + space
         x = pos[0]  # Reset the x.
         y += word_height  # Start on new row.

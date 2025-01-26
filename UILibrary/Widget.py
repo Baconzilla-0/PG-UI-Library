@@ -10,6 +10,7 @@ from .Grid import Fill
 class Widget:
     def __init__(self, Parent, Style: Sheet, Name: str = "Widget", Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(10, 10)):
         self.Position = Position
+        self.AbsolutePosition = Position
         self.Size = Size
         self.Rect = pygame.Rect(pygame.Vector2(0, 0), self.Size)
         
@@ -97,7 +98,9 @@ class Widget:
 
     def Evaluate(self):
         ## Hover Detection
-        PhysicalRect = pygame.Rect(self.Position + self.Parent.Position + self.Theme.Margin.topleft, self.MarginRect.size)
+        self.AbsolutePosition = self.Position + self.Parent.AbsolutePosition + self.Theme.Margin.center
+
+        PhysicalRect = pygame.Rect(self.AbsolutePosition, self.MarginRect.size)
 
         if PhysicalRect.collidepoint(pygame.mouse.get_pos()):
             self.Hovered = True
@@ -164,6 +167,11 @@ class Widget:
             self.MarginRect.width - self.Theme.Padding.width, 
             self.MarginRect.height - self.Theme.Padding.height
         )
+
+        if self.Ignore:
+            self.PaddingRect = pygame.Rect(
+                0,0,self.Size.x,self.Size.y
+            )
         
         self.Surface.set_colorkey(pygame.Color(255, 0, 255))
         if self.Visible:

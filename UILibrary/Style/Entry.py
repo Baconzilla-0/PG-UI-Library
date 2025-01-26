@@ -32,7 +32,6 @@ class Entry:
 
     def Apply(self, Widget):
         Name = Widget.__class__.__name__
-        print(Name)
 
         if Widget.Name == self.TargetName or Name == self.TargetClass:
             if self.State == "Any":

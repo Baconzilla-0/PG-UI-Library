@@ -8,9 +8,9 @@ class Frame(Widget):
         super().__init__(Parent, Parent.Style, Position, Size)
 
     def Update(self):
-        Shift = self.ZIndex * self.Theme.ZIndexShift
-        Colour = self.Theme.Background
-        Utils.Box(self, self.Theme.BackgroundInset)
-        pygame.draw.rect(self.Surface, pygame.Color(Colour.r + Shift, Colour.g + Shift, Colour.b + Shift), self.MarginRect)
+        #Shift = self.ZIndex * self.Theme.ZIndexShift
+        #Colour = self.Theme.Background
+        #Utils.Box(self, self.Theme.BackgroundInset)
+        #pygame.draw.rect(self.Surface, pygame.Color(Colour.r + Shift, Colour.g + Shift, Colour.b + Shift), self.MarginRect)
 
         super().Update()

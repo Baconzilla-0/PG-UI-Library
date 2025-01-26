@@ -37,8 +37,7 @@ class Input(Widget):
                         else:
                             self.Text += Event.unicode
 
-        Utils.TextWrapped(self.Surface, self.Text, self.Font, self.Theme.Foreground, self.Rect)        
-
+        Utils.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
         super().Update()
 
 
