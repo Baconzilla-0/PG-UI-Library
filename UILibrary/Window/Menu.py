@@ -1,5 +1,4 @@
 from ..Widget import Widget
-from ..Theme import Theme
 from ..Widgets import TextButton
 
 
@@ -17,7 +16,7 @@ class Option:
         if Callback is not None:
             self.Callback = Callback
         else:
-            self.Menu = Dropdown(Screen, Theme(), Vector2(0, 0))
+            self.Menu = Dropdown(Screen, None, Vector2(0, 0))
 
     def toggle_dropdown(self):
         self.Open = not self.Open
@@ -27,7 +26,7 @@ class Option:
             self.Menu.hide()
 
 class Dropdown(Widget):
-    def __init__(self, Parent, Theme: Theme, Position: Vector2):
+    def __init__(self, Parent, Theme, Position: Vector2):
         super().__init__(Parent, Theme, Position, Vector2(10, 10))
 
         self.Options = []

@@ -1,11 +1,11 @@
 import pygame
 
-from ..Theme import Theme
+from ..Style import Sheet
 from ..Widgets.Screen import Widget as Screen
 
 class Widget:
-    def __init__(self, Theme: Theme, Title: str, Size: pygame.Vector2, Position: pygame.Vector2 = pygame.Vector2(0, 0), Resize = True, Icon = None):
-        self.Theme = Theme
+    def __init__(self, Style: Sheet, Title: str, Size: pygame.Vector2, Position: pygame.Vector2 = pygame.Vector2(0, 0), Resize = True, Icon = None):
+        self.Style = Style
         self.Position = Position
         self.Resize = (lambda: pygame.RESIZABLE if Resize else 0)()
         self.Title = Title
@@ -38,7 +38,7 @@ class Widget:
 
         if self.Screen != None:
             while self.Active: 
-                self.Surface.fill(self.Theme.Background) 
+                #self.Surface.fill(self.Theme.Background) 
                 self.Screen.Update()
 
                 pygame.display.update()

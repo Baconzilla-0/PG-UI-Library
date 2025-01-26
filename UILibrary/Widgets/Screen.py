@@ -1,17 +1,17 @@
 import pygame
 
-from ..Theme import Theme
+from ..Style import Sheet
 from ..Widget import Widget as Widget
 #from ..Window import Widget as Window
 
 class Screen(Widget):
-    def __init__(self, Theme: Theme = None, Update = None):
+    def __init__(self, Style: Sheet, Update = None):
         self.OnUpdate = Update
-        super().__init__(None, Theme, pygame.Vector2(0, 0), pygame.Vector2(0, 0))
+        super().__init__(None, Style, pygame.Vector2(0, 0), pygame.Vector2(0, 0))
 
     def SetParent(self, Parent):
         self.Parent = Parent
-        self.Theme = Parent.Theme
+        self.Style = Parent.Style
         self.Surface = Parent.Surface
 
     def Update(self):

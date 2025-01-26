@@ -1,2 +1,3 @@
 from .Menu import *
-from .Window import *
+
+from .Main import Widget as Main

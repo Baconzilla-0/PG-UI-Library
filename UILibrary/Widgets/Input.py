@@ -4,8 +4,8 @@ from .. import Utils
 from ..Widget import Widget as Widget
 
 class Input(Widget):
-    def __init__(self, Parent: Widget, Placeholder: str, FontScale, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100), Theme = None):
-        super().__init__(Parent, Theme or Parent.Theme, Position, Size)
+    def __init__(self, Parent: Widget, Placeholder: str, FontScale, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
+        super().__init__(Parent, Parent.Style, Position, Size)
         self.FontScale = FontScale
         self.Font = pygame.font.SysFont(self.Theme.Font, self.Size.y * self.FontScale)
         self.Placeholder = Placeholder
@@ -19,12 +19,12 @@ class Input(Widget):
     def Update(self, Event: pygame.event.Event = None):
         self.Font = pygame.font.Font(self.Theme.Font, self.Size.y * self.FontScale)
 
-        if self.Hovered == False:
-            self.Surface.fill(self.Theme.InputIdle)
-        elif self.Hovered:
-            self.Surface.fill(self.Theme.InputHovered)
+        #if self.Hovered == False:
+            #self.Surface.fill(self.Theme.InputIdle)
+        #elif self.Hovered:
+            #self.Surface.fill(self.Theme.InputHovered)
         if self.Focused:
-            self.Surface.fill(self.Theme.InputFocused)
+            #self.Surface.fill(self.Theme.InputFocused)
 
             for Event in pygame.event.get():
                 if Event != None:

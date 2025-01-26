@@ -5,8 +5,8 @@ from .. import Utils
 from ..Widget import Widget as Widget
 
 class Label(Widget):
-    def __init__(self, Parent: Widget, Text: str, FontScale, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100), Theme = None):
-        super().__init__(Parent, Theme or Parent.Theme, Position, Size)
+    def __init__(self, Parent: Widget, Text: str, FontScale, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):
+        super().__init__(Parent, Parent.Style, Position, Size)
         self.Text = Text
 
         self.FontScale = FontScale
@@ -16,7 +16,8 @@ class Label(Widget):
         self.Text = Text
 
     def Update(self):
-        self.Surface.fill(self.Theme.Background)
+        Utils.Box(self, self.Theme.Background)
+
         self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
 
         Utils.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground)

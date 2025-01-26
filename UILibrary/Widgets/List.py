@@ -1,19 +1,15 @@
 import pygame
 
-from ..Theme import Theme
+
 from ..Widget import Widget as Widget
 from .Button import Button as Button
 
 class List(Widget):
-    def __init__(self, Parent: Widget, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100), Spacing = None, Theme = None):
-        super().__init__(Parent, Theme or Parent.Theme, Position, Size)
-        if Spacing != None:
-            self.Spacing = Spacing 
-        else:
-            self.Spacing = self.Theme.Spacing
+    def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
+        super().__init__(Parent, Parent.Style, Position, Size)
 
     def Update(self):
-        self.Surface.fill(self.Theme.ButtonHovered)
+        self.Surface.fill(self.Theme.Background)
 
         x_offset = 0
         y_offset = 0
@@ -24,7 +20,6 @@ class List(Widget):
         for child in self.Children:
             child: Widget
             child.Docked = None
-            child.Padding = pygame.Rect(self.Spacing, self.Spacing, self.Spacing, self.Spacing)
 
             if x_offset + child.Size.y > self.Size.x:
                 x_offset = 0
@@ -46,8 +41,8 @@ class List(Widget):
 
 
 class Panel(List):
-    def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100), Spacing: int = None, Theme: Theme = None,):
-        super().__init__(Parent, Position, Size, Spacing, Theme)
+    def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100), Spacing: int = None):
+        super().__init__(Parent, Position, Size, Spacing)
         self.Selected: Button = None
 
     def Evaluate(self):

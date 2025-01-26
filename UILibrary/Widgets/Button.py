@@ -3,12 +3,11 @@ import math
 
 from .. import Utils
 from ..Widget import Widget as Widget
-from ..Theme import Theme
 
 
 class Button(Widget):
-    def __init__(self, Parent, Callback = None, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100), Theme: Theme = None):
-        super().__init__(Parent, Theme or Parent.Theme, Position, Size)
+    def __init__(self, Parent: Widget, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
+        super().__init__(Parent, Parent.Style, Position, Size)
 
         self.Callback = Callback
 
@@ -18,29 +17,34 @@ class Button(Widget):
     def Evaluate(self):
         super().Evaluate()
 
-        if self.Holding:
-            self.Surface.fill(self.Theme.ButtonPressed)
-
-        elif self.Clicked:
-            self.Surface.fill(self.Theme.ButtonPressed)
+        if self.Clicked:
             if self.Callback:
                 self.Callback()
 
+        '''
+        if self.Holding:
+            
+            Utils.Box(self, self.Theme.ButtonPressed)
+
+        
+
         elif self.Hovered:
-            self.Surface.fill(self.Theme.ButtonHovered)
+            Utils.Box(self, self.Theme.ButtonHovered)
 
         else:
-            self.Surface.fill(self.Theme.ButtonIdle)
+            Utils.Box(self, self.Theme.ButtonIdle)
 
         if self.Selected:
-            self.Surface.fill(self.Theme.Selected)
-
+            Utils.Box(self, self.Theme.Selected)
+        '''
+            
     def Update(self):
         super().Update()
 
+
 class TextButton(Button):
-    def __init__(self, Parent, Text, FontScale, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100), Theme = None):
-        super().__init__(Parent, Callback, Position, Size, Theme)
+    def __init__(self, Parent: Widget, Text, FontScale, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
+        super().__init__(Parent, None, Position, Size)
 
         self.FontScale = FontScale
         self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
@@ -50,16 +54,15 @@ class TextButton(Button):
     def Update(self):
         super().Evaluate()
 
-        self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))  
-        Utils.TextWrapped(self.Surface, self.Text, self.Font, self.Theme.Foreground, self.Rect)
+        self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
+        Utils.TextWrapped(self.Surface, self.Text, self.Font, self.Theme.Foreground, self.PaddingRect)
 
         super().Update()
 
-class ImageButton(Button):
-    def __init__(self, Parent: Widget, File, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100), Theme = None):
-        super().__init__(Parent, Callback, Position, Size, Theme)
 
-        self.Callback = Callback
+class ImageButton(Button):
+    def __init__(self, Parent: Widget, File, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
+        super().__init__(Parent, None, Position, Size)
         self.File = File
 
     def SetFile(self, File):

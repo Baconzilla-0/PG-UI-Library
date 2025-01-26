@@ -1,12 +1,11 @@
 import pygame
 
-from ..Theme import Theme
 from ..Widget import Widget as Widget
 
 
 class Image(Widget):
-    def __init__(self, Parent: Widget, File, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100), Theme: Theme = None):
-        super().__init__(Parent, Theme or Parent.Theme, Position, Size)
+    def __init__(self, Parent: Widget, File, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):
+        super().__init__(Parent, Parent.Style, Position, Size)
 
         self.File = File
         self.Image = pygame.image.load(self.File).convert_alpha()
@@ -27,9 +26,10 @@ class Image(Widget):
         self.Surface.blit(self.Image, pygame.Vector2(0, 0))
         super().Update()
 
+
 class Animation(Image):
-    def __init__(self, Parent: Widget, File, FrameHeight: int, FrameTime: int, Callback, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100), Theme = None):
-        super().__init__(Parent, File, Position, Size, Theme or Parent.Theme)
+    def __init__(self, Parent: Widget, File, FrameHeight: int, FrameTime: int, Callback, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):
+        super().__init__(Parent, File, Position, Size)
 
         self.Frame = 0
         self.Time = 0
