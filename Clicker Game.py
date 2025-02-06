@@ -52,7 +52,7 @@ FunnyImage = UILibrary.Widgets.Image(Container, Utils.GetFile(__file__, "assets/
 # Create a display for the score
 Info = UILibrary.Widgets.List(Container).Scale(UILibrary.Grid.HW).Dock(UILibrary.Grid.NW).Absolute()
 ScoreDisplay = UILibrary.Widgets.Label(Info, f"Score: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
-IncrementDisplay = UILibrary.Widgets.Label(Info, f"Increment: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
+IncrementDisplay = UILibrary.Widgets.Label(Info, f"Go Up: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
 
 # Create a button and set its callback
 ClickButton = UILibrary.Widgets.TextButton(Info, "Click Me!", Text).Dock(UILibrary.Grid.S).Scale(UILibrary.Grid.WT)
@@ -81,7 +81,7 @@ def on_upgrade_click(upgrade):
         score -= upgrade["cost"]
         score_per_click += upgrade["increment"]
         upgrade["count"] += 1
-        IncrementDisplay.SetText(f"Increment: {score_per_click}")
+        IncrementDisplay.SetText(f"Go Up: {score_per_click}")
         ScoreDisplay.SetText(f"Score: {score}")
         update_upgrade_buttons()
 
