@@ -97,7 +97,7 @@ class ScrollList(List):
             self.ScrollVelocity -= pdifference / Friction
             #self.ScrollOffset = 0
 
-        y_offset = self.ScrollOffset
+        y_offset = self.ScrollOffset + (self.PaddingRect.y / 2)
         for child in self.Children:
             child: Widget
             child.Position = pygame.Vector2(child.Position.x, y_offset)
