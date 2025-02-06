@@ -10,8 +10,8 @@ class Scale:
         except Exception:
             Rect = Widget.Parent.Surface.get_rect()
 
-        X = Rect.width * self.Size.x
-        Y = Rect.height * self.Size.y
+        X = Rect.width / self.Size.x
+        Y = Rect.height / self.Size.y
 
         X = X or Widget.Size.x
         Y = Y or Widget.Size.y

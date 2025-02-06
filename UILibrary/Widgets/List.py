@@ -88,11 +88,13 @@ class ScrollList(List):
         ndifference = self.ScrollOffset - -(total/2)
         pdifference = self.ScrollOffset
 
+        Friction = 70
+
         if self.ScrollOffset < -(total/2):
             #self.ScrollOffset = -(total/2)
-            self.ScrollVelocity -= ndifference / 50
+            self.ScrollVelocity -= ndifference / Friction
         if self.ScrollOffset > 0:
-            self.ScrollVelocity -= pdifference / 50
+            self.ScrollVelocity -= pdifference / Friction
             #self.ScrollOffset = 0
 
         y_offset = self.ScrollOffset
