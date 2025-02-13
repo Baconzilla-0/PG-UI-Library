@@ -3,7 +3,6 @@ import pygame
 from .Utils import Box
 
 
-from .Style import Sheet
 from .Style import Theme
 
 from .Grid import Alignment
@@ -162,8 +161,6 @@ class Widget:
             if not self.Hovered:
                 self.SetState("Idle")
 
-        ## apply the stylesheet (TODO: rewrite styling to be more html-ish)
-        self.Theme = None # reset the theme so global styles can be overwritten.
         self.Style.Apply(self)
         if self.BG != None:
             Box(self, self.BG)
@@ -186,11 +183,11 @@ class Widget:
         ## Update Children
         for Child in self.Children:
             Child: Widget
-            try:
-                Child.Evaluate()
-                Child.Update()
-            except Exception as Error:
-                print(f"Update Failed: {Error}")
+            #try:
+            Child.Evaluate()
+            Child.Update()
+            #except Exception as Error:
+            #    print(f"Update Failed: {Error}")
 
         ## Update Self
         self.Rect = pygame.Rect(pygame.Vector2(0, 0), self.Size)

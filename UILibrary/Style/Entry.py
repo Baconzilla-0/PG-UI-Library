@@ -30,17 +30,28 @@ class Entry:
     def From(Entry):
         return copy.deepcopy(Entry)
 
+    def ApplyAttributes(self, Widget: object):
+        Keys = self.__dict__.keys()
+        for Key in Keys:
+            Value = self.__getattribute__(Key)
+            #print(Key)
+            if hasattr(Widget.Theme, Key):
+                Widget.Theme.__setattr__(Key, Value)
+
     def Apply(self, Widget):
         Name = Widget.__class__.__name__
 
         if Widget.Name == self.TargetName or Name == self.TargetClass:
             if self.State == "Any":
-                Widget.Theme = self
+                self.ApplyAttributes(Widget)
             elif Widget.State == self.State:
-                Widget.Theme = self
-        if Widget.Theme == None:
+                self.ApplyAttributes(Widget)
+        #if Widget.Theme == None:
+        
+        else:
             if self.TargetClass == "Any":
                 if self.State == "Any":
-                    Widget.Theme = self
+                    self.ApplyAttributes(Widget)
                 elif Widget.State == self.State:
-                    Widget.Theme = self
+                    self.ApplyAttributes(Widget)
+        
