@@ -1,9 +1,9 @@
 import pygame
 import math
 
-from .. import Utils
+from .. import Helpers
 from ..Widget import Widget as Widget
-from ..Grid import Divisions, Compass, Constraints
+from ..Grid import Compass, Constraints, Divisions
 
 
 class Slider(Widget):
@@ -25,10 +25,6 @@ class Slider(Widget):
         XPos = max(0, min(self.MarginRect.width - self.HandleSize.x, Position.x))
         YPos = max(0, min(self.MarginRect.height - self.HandleSize.y, Position.y))
 
-        #AbsMouse = pygame.mouse.get_pos()
-        #pygame.event.clear()
-        #pygame.mouse.set_pos((AbsMouse[0], self.AbsolutePosition.y))
-
         self.InternalValue = pygame.Vector2(XPos, YPos)
 
     def Evaluate(self):
@@ -48,7 +44,7 @@ class Slider(Widget):
             
     def Update(self):
         self.HandleSize = pygame.Vector2(self.PaddingRect.height + 5, self.PaddingRect.height + 5)
-        Utils.Box(self, self.Handle, Rect=pygame.Rect(self.InternalValue, self.HandleSize))
+        Helpers.Box(self, self.Handle, Rect=pygame.Rect(self.InternalValue, self.HandleSize))
         
         HalfHandleX = self.HandleSize.x / 2
         XConstriant = (HalfHandleX, self.MarginRect.width - self.HandleSize.x)
@@ -74,6 +70,6 @@ class LabeledSlider(Widget):
         self.Label = Label
 
     def Update(self):
-        Utils.Text(self.Surface, f"{self.Label} {self.Slider.Value.x}", self.Theme.Font, self.Theme.Foreground, (self.Size.y / 2) * 0.6, self.PaddingRect.topleft)
+        Helpers.Text(self.Surface, f"{self.Label} {self.Slider.Value.x}", self.Theme.Font, self.Theme.Foreground, (self.Size.y / 2) * 0.6, self.PaddingRect.topleft)
         self.Slider.Update()
         super().Update()

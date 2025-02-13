@@ -1,7 +1,7 @@
 import pygame
 
-from .Fill import Fill
-from .Aspect import Aspect
+from ._Fill import Fill
+from ._Aspect import Aspect
 
 A = Fill(pygame.Vector2(1, 1))
 W = Fill(pygame.Vector2(1, 0))

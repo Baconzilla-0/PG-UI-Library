@@ -1,7 +1,7 @@
 import pygame
 
 from ..Style import Sheet
-from ..Widgets.Screen import Widget as Screen
+from ..Widgets._Screen import Screen
 
 class Widget:
     def __init__(self, Style: Sheet, Title: str, Size: pygame.Vector2, Position: pygame.Vector2 = pygame.Vector2(0, 0), Resize = True, Icon = None):

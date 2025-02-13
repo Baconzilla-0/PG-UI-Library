@@ -1,6 +1,6 @@
 import pygame
 
-from .. import Utils
+from .. import Helpers
 from ..Widget import Widget as Widget
 
 class Input(Widget):
@@ -36,7 +36,7 @@ class Input(Widget):
                         else:
                             self.Text += Event.unicode
 
-        Utils.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
+        Helpers.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
         super().Update()
 
 

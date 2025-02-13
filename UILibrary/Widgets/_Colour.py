@@ -1,14 +1,14 @@
 import pygame
 import math
 
-from .. import Utils
+from .. import Helpers
 from ..Widget import Widget as Widget
-from ..Grid import Divisions, Compass, Constraints
+from ..Grid import Compass, Constraints, Divisions
 from ..Grid import Scale
 
-from .Slider import Slider
-from .List import List
-from .Frame import Frame
+from ._Slider import Slider
+from ._List import List
+from ._Frame import Frame
 
 class RGBPicker(Widget):
     def __init__(self, Parent, Position=pygame.Vector2(10, 10), Size=pygame.Vector2(100, 100)):
@@ -27,6 +27,6 @@ class RGBPicker(Widget):
         #Utils.Text(self.Surface, f"{self.Label} {self.Slider.Value.x}", self.Theme.Font, self.Theme.Foreground, (self.Size.y / 2) * 0.6, self.PaddingRect.topleft)
         
         self.Colour = pygame.Color(int(self.RSlider.Value.x), int(self.GSlider.Value.x), int(self.BSlider.Value.x))
-        self.ColourDisplay.BG = self.Colour
+        self.ColourDisplay.Theme.Background = self.Colour
 
         super().Update()

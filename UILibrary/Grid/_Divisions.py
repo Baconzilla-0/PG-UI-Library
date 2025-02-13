@@ -1,6 +1,6 @@
 import pygame
 
-from .Scale import Scale
+from ._Scale import Scale
 
 ## Whole Variants
 WW = Scale(pygame.Vector2(1, 1)) # Whole x Whole

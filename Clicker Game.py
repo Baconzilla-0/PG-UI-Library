@@ -2,8 +2,12 @@ import pygame
 from pygame import Color, Rect, Vector2
 
 import UILibrary
-import UILibrary.Utils as Utils
+import UILibrary.Helpers as Helpers
 import UILibrary.Style as Style
+
+from UILibrary.Grid import *
+
+
 
 pygame.init()
 
@@ -38,25 +42,25 @@ Text = 0.6
 Start_Size = pygame.Vector2(350, 500)
 
 # Create the main window
-Window = UILibrary.Window.Main(Sheet, "Clicker Game", Start_Size, Vector2(100, 100), Icon=Utils.GetFile(__file__, "assets/mouse.jpg"))
+Window = UILibrary.Window.Main(Sheet, "Clicker Game", Start_Size, Vector2(100, 100), Icon=Helpers.GetFile(__file__, "assets/mouse.jpg"))
 
 # Create the screen
 Screen = UILibrary.Widgets.Screen(Sheet)
 Window.SetScreen(Screen)
 
-Main = UILibrary.Widgets.List(Screen).Scale(UILibrary.Grid.WW).Dock(UILibrary.Grid.C).Absolute()
+Main = UILibrary.Widgets.List(Screen).Scale(Divisions.WW).Dock(Compass.C)
 
-Container = UILibrary.Widgets.List(Main).Scale(UILibrary.Grid.WT).Absolute()
+Container = UILibrary.Widgets.List(Main).Scale(Divisions.WT)
 
-Info = UILibrary.Widgets.List(Container).Scale(UILibrary.Grid.HW).Dock(UILibrary.Grid.W) #.Absolute()
-FunnyImage = UILibrary.Widgets.Image(Container, Utils.GetFile(__file__, "assets/mouse.jpg")).Dock(UILibrary.Grid.E).Scale(UILibrary.Grid.HW)
+Info = UILibrary.Widgets.List(Container).Scale(Divisions.HW).Dock(Compass.W) 
+FunnyImage = UILibrary.Widgets.Image(Container, Helpers.GetFile(__file__, "assets/mouse.jpg")).Dock(Compass.E).Scale(Divisions.HW)
 
 # Create a display for the score
-ScoreDisplay = UILibrary.Widgets.Label(Info, f"Score: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
-IncrementDisplay = UILibrary.Widgets.Label(Info, f"Go Up: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
+ScoreDisplay = UILibrary.Widgets.Label(Info, f"Score: {score}", Text).Dock(Compass.N).Scale(Divisions.WT)
+IncrementDisplay = UILibrary.Widgets.Label(Info, f"Go Up: {score}", Text).Dock(Compass.N).Scale(Divisions.WT)
 
 # Create a button and set its callback
-ClickButton = UILibrary.Widgets.TextButton(Info, "Click Me!", Text).Dock(UILibrary.Grid.S).Scale(UILibrary.Grid.WT)
+ClickButton = UILibrary.Widgets.TextButton(Info, "Click Me!", Text).Dock(Compass.S).Scale(Divisions.WT)
 ClickButton.SetCallback(on_button_click)
 
 
@@ -73,7 +77,7 @@ upgrades = [
 ]
 
 # Create a container for the upgrade buttons
-UpgradeContainer = UILibrary.Widgets.ScrollList(Main).Dock(UILibrary.Grid.S).Fill(UILibrary.Grid.H)
+UpgradeContainer = UILibrary.Widgets.ScrollList(Main).Dock(Compass.S).Fill(Constraints.H)
 
 # Function to handle upgrade purchases
 def on_upgrade_click(upgrade):
@@ -94,7 +98,7 @@ def update_upgrade_buttons():
 # Create upgrade buttons and set their callbacks
 UpgradeButtons = []
 for upgrade in upgrades:
-    UpgradeButton = UILibrary.Widgets.TextButton(UpgradeContainer, f"{upgrade['label']} ({upgrade['cost']} points) - {upgrade['count']} owned", 0.3).Scale(UILibrary.Grid.WQ)
+    UpgradeButton = UILibrary.Widgets.TextButton(UpgradeContainer, f"{upgrade['label']} ({upgrade['cost']} points) - {upgrade['count']} owned", 0.3).Scale(Divisions.WQ)
     UpgradeButton.SetCallback(lambda u=upgrade: on_upgrade_click(u))
     UpgradeButtons.append(UpgradeButton)
 

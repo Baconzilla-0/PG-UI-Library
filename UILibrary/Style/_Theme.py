@@ -13,3 +13,5 @@ class Theme:
         self.BorderRadius = -1 #6
 
         self.Font = None
+
+        self.Absolute = False

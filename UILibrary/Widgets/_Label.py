@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from .. import Utils
+from .. import Helpers
 from ..Widget import Widget as Widget
 
 class Label(Widget):
@@ -16,12 +16,12 @@ class Label(Widget):
         self.Text = Text
 
     def Update(self):
-        Utils.Box(self, self.Theme.Background)
+        Helpers.Box(self, self.Theme.Background)
 
         self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
         #Utils.TextWrapped(self.Surface, self.Text, self.Font, self.Theme.Foreground, self.PaddingRect)
         
-        Utils.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
+        Helpers.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
         
 
         super().Update()

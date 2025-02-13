@@ -1,6 +1,6 @@
 import pygame
 
-from .Alignment import Alignment
+from ._Alignment import Alignment
 
 
 C = Alignment(pygame.Vector2(0.5, 0.5), pygame.Vector2(0.5, 0.5)) # Centered

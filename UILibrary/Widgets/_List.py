@@ -2,7 +2,7 @@ import pygame
 import math
 
 from ..Widget import Widget as Widget
-from .Button import Button as Button
+from ._Button import Button as Button
 
 class List(Widget):
     def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):

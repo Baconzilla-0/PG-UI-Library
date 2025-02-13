@@ -1,16 +1,16 @@
 ## Base Types
-from .Screen import *
-from .Frame import *
+from ._Screen import *
+from ._Frame import *
 
 ## Other Widgets
-from .Button import * # Button Types
-from .List import * # List Types
-from .Label import * # Text Types
+from ._Button import * # Button Types
+from ._List import * # List Types
+from ._Label import * # Text Types
 
-from .Image import * # Image Types
+from ._Image import * # Image Types
 #from .Animation import *
 
-from .Input import * # Input Types
-from .Tickbox import *
-from .Slider import *
-from .Colour import *
+from ._Input import * # Input Types
+from ._Tickbox import *
+from ._Slider import *
+from ._Colour import *

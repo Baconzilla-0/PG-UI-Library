@@ -15,7 +15,7 @@ def Box(Widget, Colour, Border = None, Rect = None):
 
     #Rect = Widget.Surface.get_rect()
     if Rect == None:
-        if Widget.Ignore:
+        if Widget.Theme.Absolute:
             Rect = Widget.Rect
         else:
             Rect = Widget.MarginRect

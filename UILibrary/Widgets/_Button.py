@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from .. import Utils
+from .. import Helpers
 from ..Widget import Widget as Widget
 
 
@@ -58,7 +58,7 @@ class TextButton(Button):
         super().Evaluate()
 
         self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
-        Utils.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
+        Helpers.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
         super().Update()
 
 

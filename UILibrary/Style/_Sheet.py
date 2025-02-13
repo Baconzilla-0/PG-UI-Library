@@ -1,5 +1,5 @@
-from .Entry import Entry as E
-from .. import Widgets
+from ._Entry import Entry as E
+#from .. import Widgets
 
 class Sheet:
     def __init__(self):
@@ -14,7 +14,7 @@ class Sheet:
         return Ent
 
 
-    def Apply(self, Widget: Widgets.Widget):
+    def Apply(self, Widget):
         for Index, Theme in enumerate(self.Entries):
             Theme: E
             Theme.Apply(Widget)

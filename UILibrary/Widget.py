@@ -1,39 +1,38 @@
 import pygame
 
-from .Utils import Box
-
-
-from .Style import Theme
+from .Helpers import Box
 
 from .Grid import Alignment
 from .Grid import Scale
 from .Grid import Fill
 from .Grid import Aspect
 
+from .Style import Theme
 
 
 class Widget:
     def __init__(self, Parent, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(10, 10), Name: str = "Widget", Style = None):
+        ## Rendering Setup
         self.Position = Position
         self.AbsolutePosition = Position
         self.Size = Size
         self.Rect = pygame.Rect(pygame.Vector2(0, 0), self.Size)
-        self.Root = False
-        self.Style = Style
-        self.Theme = Theme.Theme()
-        self.Name = Name
-        self.BG = None
+        self.Surface = pygame.Surface(self.Size, pygame.SRCALPHA)
         
+        ## Style Setup
+        self.Name = Name
         self.State = "Idle"
-
+        self.Style = Style
+        self.Theme = Theme()
         self.Visible = True
-        self.Ignore = False
 
+        ## Scaling & Resizing
         self.Scaled = None
         self.Docked = None
         self.Filled = None
         self.Aspect = None
 
+        ## Interactivity
         self.Interactive = False
         self.Hovered = False
         self.Focused = False
@@ -41,17 +40,11 @@ class Widget:
         self.Holding = False
         self.RelativeMouse = pygame.Vector2(0, 0)
         self.MouseStart = pygame.Vector2(0, 0)
-
-        self.Selected = False
-
-        if Parent == None:
-            self.ZIndex = 1
-        else:
-            self.ZIndex = Parent.ZIndex + 1
-            Parent.Children.append(self)
         
+        ## Final Setup
+        self.Root = False
+        self.Parent = None
         self.SetParent(Parent)
-        self.Surface = pygame.Surface(self.Size, pygame.SRCALPHA)
         self.Children = []
   
     def __str__(self):
@@ -63,6 +56,9 @@ class Widget:
         return Output
 
     def SetParent(self, Parent):
+        if self.Parent != None:
+            self.Parent.Children.remove(self)
+
         if Parent != None:
             self.Parent = Parent
             if self.Parent.Style != None:
@@ -72,6 +68,12 @@ class Widget:
                 self.MarginRect = pygame.Rect(self.Theme.Margin.left, self.Theme.Margin.top, self.Size.x - self.Theme.Margin.width, self.Size.y - self.Theme.Margin.height)
                 self.PaddingRect = pygame.Rect(self.Theme.Padding.left, self.Theme.Padding.top, self.Size.x - self.Theme.Padding.width, self.Size.y - self.Theme.Padding.height)
             self.Surface = Parent.Surface
+
+        if Parent == None:
+            self.ZIndex = 1
+        else:
+            self.ZIndex = Parent.ZIndex + 1
+            Parent.Children.append(self)
 
     def SetState(self, State):
         self.State = State
@@ -87,11 +89,6 @@ class Widget:
             return self
         else:
             return self.Parent.GetRoot()
-
-    def Absolute(self):
-        self.Ignore = True
-
-        return self
 
     def Dock(self, Alignment: Alignment):
         Alignment.Apply(self)
@@ -162,12 +159,8 @@ class Widget:
                 self.SetState("Idle")
 
         self.Style.Apply(self)
-        if self.BG != None:
-            Box(self, self.BG)
-        else:
-            Box(self, self.Theme.Background)
-        #pygame.draw.rect(self.Surface, pygame.Color(255, 0, 0), PhysicalRect)
         
+        Box(self, self.Theme.Background)
 
     def Update(self):
 
@@ -207,20 +200,20 @@ class Widget:
             self.MarginRect.height - self.Theme.Padding.height
         )
 
-        if self.Ignore:
-            self.PaddingRect = pygame.Rect(
-                0,0,self.Size.x,self.Size.y
-            )
-        
+        if self.Theme.Absolute:
+            self.PaddingRect = pygame.Rect(0, 0, self.Size.x, self.Size.y)
+
+        ## Shitty transparency workaround because pygame is mean
         self.Surface.set_colorkey(pygame.Color(255, 0, 255))
+
         if self.Visible:
-            if self.Ignore:
+            if self.Theme.Absolute:
                 self.Parent.Surface.blit(self.Surface.convert_alpha(), self.Position, self.Rect)
             else:
                 self.Parent.Surface.blit(self.Surface.convert_alpha(), self.Position + self.Theme.Margin.topleft)
         try:
             # recreate surface to reflect size changes (for responsive layouts)
-            if self.Ignore:
+            if self.Theme.Absolute:
                 self.Surface = pygame.Surface(self.Size, pygame.SRCALPHA)
             else:
                 self.Surface = pygame.Surface(self.MarginRect.size, pygame.SRCALPHA) 

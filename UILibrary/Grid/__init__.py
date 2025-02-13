@@ -1,8 +1,8 @@
-from .Alignment import Alignment
-from .Scale import Scale
-from .Fill import Fill
-from .Aspect import Aspect
+from ._Alignment import Alignment
+from ._Scale import Scale
+from ._Fill import Fill
+from ._Aspect import Aspect
 
-from .Compass import *
-from .Divisions import *
-from .Constraints import *
+from . import _Constraints as Constraints
+from . import _Divisions as Divisions
+from . import _Compass as Compass

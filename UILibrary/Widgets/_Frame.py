@@ -1,7 +1,7 @@
 import pygame
 
 from ..Widget import Widget as Widget
-from .. import Utils
+from .. import Helpers
 
 class Frame(Widget):
     def __init__(self, Parent: Widget, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):

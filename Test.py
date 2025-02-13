@@ -2,8 +2,10 @@ import pygame
 from pygame import Color, Rect, Vector2
 
 import UILibrary
-import UILibrary.Utils as Utils
+import UILibrary.Helpers as Helpers
 import UILibrary.Style as Style
+import UILibrary.Grid as Grid
+from UILibrary.Grid import Compass, Constraints, Divisions
 
 pygame.init()
 
@@ -18,19 +20,19 @@ Sheet.Entry(TargetClass="TextButton", State="Held").Set("Background", Color(130,
 Text = 0.6
 
 Start_Size = pygame.Vector2(350, 500)
-Window = UILibrary.Window.Main(Sheet, "Calculator", Start_Size, Vector2(100, 100), Icon = Utils.GetFile(__file__, "assets/icon.jpg"))
+Window = UILibrary.Window.Main(Sheet, "Calculator", Start_Size, Vector2(100, 100), Icon = Helpers.GetFile(__file__, "assets/icon.jpg"))
 
 Screen = UILibrary.Widgets.Screen(Sheet)
 Window.SetScreen(Screen)
 
-InputScale = UILibrary.Grid.Scale(Vector2(1, 0.8))
+InputScale = UILibrary.Grid.Scale(Vector2(1, 1.2))
 
 # Create a display for the calculator
-Display = UILibrary.Widgets.Label(Screen, "0", Text).Dock(UILibrary.Grid.NW).Scale(UILibrary.Grid.WF)
-Image = UILibrary.Widgets.Image(Screen, Utils.GetFile(__file__, "assets/icon.jpg")).Dock(UILibrary.Grid.NE).Scale(UILibrary.Grid.FF)
+Display = UILibrary.Widgets.Label(Screen, "0", Text).Dock(Compass.NW).Scale(Divisions.WF)
+Image = UILibrary.Widgets.Image(Screen, Helpers.GetFile(__file__, "assets/icon.jpg")).Dock(Compass.NE).Scale(Divisions.FF)
 
 # Create a container for the buttons
-ButtonContainer = UILibrary.Widgets.List(Screen).Dock(UILibrary.Grid.S).Scale(InputScale)
+ButtonContainer = UILibrary.Widgets.List(Screen).Dock(Compass.S).Scale(InputScale)
 
 # Define button labels
 buttons = [
@@ -70,7 +72,7 @@ def on_button_click(label):
 
 # Create buttons and set their callbacks
 for label in buttons:
-    button = UILibrary.Widgets.TextButton(ButtonContainer, label, Text).Scale(UILibrary.Grid.QF)
+    button = UILibrary.Widgets.TextButton(ButtonContainer, label, Text).Scale(Divisions.QF)
     button.SetCallback(lambda l=label: on_button_click(l))
 
 # Start the UI loop
