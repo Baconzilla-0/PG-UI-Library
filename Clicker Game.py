@@ -46,11 +46,12 @@ Window.SetScreen(Screen)
 
 Main = UILibrary.Widgets.List(Screen).Scale(UILibrary.Grid.WW).Dock(UILibrary.Grid.C).Absolute()
 
-Container = UILibrary.Widgets.Frame(Main).Scale(UILibrary.Grid.WT).Absolute()
+Container = UILibrary.Widgets.List(Main).Scale(UILibrary.Grid.WT).Absolute()
+
+Info = UILibrary.Widgets.List(Container).Scale(UILibrary.Grid.HW).Dock(UILibrary.Grid.W) #.Absolute()
 FunnyImage = UILibrary.Widgets.Image(Container, Utils.GetFile(__file__, "assets/mouse.jpg")).Dock(UILibrary.Grid.E).Scale(UILibrary.Grid.HW)
 
 # Create a display for the score
-Info = UILibrary.Widgets.List(Container).Scale(UILibrary.Grid.HW).Dock(UILibrary.Grid.NW).Absolute()
 ScoreDisplay = UILibrary.Widgets.Label(Info, f"Score: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
 IncrementDisplay = UILibrary.Widgets.Label(Info, f"Go Up: {score}", Text).Dock(UILibrary.Grid.N).Scale(UILibrary.Grid.WT)
 

@@ -5,7 +5,7 @@ class Fill:
         self.Directions = Directions
 
     def Apply(self, Widget):
-        Rect: pygame.Rect = Widget.Parent.Surface.get_rect()
+        Rect: pygame.Rect = Widget.Parent.PaddingRect
 
         X = Rect.width
         Y = Rect.height

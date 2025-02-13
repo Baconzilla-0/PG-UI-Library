@@ -18,7 +18,7 @@ class Entry:
 
         self.BorderColour = Color(120, 120, 120)
         self.BorderWidth = 2
-        self.BorderRadius = 6
+        self.BorderRadius = -1 #6
 
         self.Font = None
 

@@ -7,7 +7,7 @@ from ..Widget import Widget as Widget
 
 class Button(Widget):
     def __init__(self, Parent: Widget, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
-        super().__init__(Parent, Parent.Style, Position, Size)
+        super().__init__(Parent, Position, Size)
 
         self.Callback = Callback
 
@@ -74,7 +74,7 @@ class ImageButton(Button):
         super().Evaluate()
 
         Image = pygame.image.load(self.File)
-        Image = pygame.transform.scale(Image, self.Size)
+        Image = pygame.transform.scale(Image, (abs(self.Size.x), abs(self.Size.y)))
 
         self.Surface.blit(Image, pygame.Vector2(0, 0))
         

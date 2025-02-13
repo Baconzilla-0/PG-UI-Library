@@ -6,7 +6,7 @@ from ..Widget import Widget as Widget
 
 class Label(Widget):
     def __init__(self, Parent: Widget, Text: str, FontScale, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):
-        super().__init__(Parent, Parent.Style, Position, Size)
+        super().__init__(Parent, Position, Size)
         self.Text = Text
 
         self.FontScale = FontScale

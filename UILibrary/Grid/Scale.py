@@ -10,11 +10,17 @@ class Scale:
         except Exception:
             Rect = Widget.Parent.Surface.get_rect()
 
-        X = Rect.width / self.Size.x
-        Y = Rect.height / self.Size.y
+        if self.Size.y != 0:
+            Y = Rect.height / self.Size.y
+        else:
+            Y = Widget.Size.y
+        if self.Size.x != 0:
+            X = Rect.width / self.Size.x
+        else:
+            X = Widget.Size.x
 
-        X = X or Widget.Size.x
-        Y = Y or Widget.Size.y
+        
+        
 
         Size = pygame.Vector2(X, Y)
         Widget.SetSize(Size)

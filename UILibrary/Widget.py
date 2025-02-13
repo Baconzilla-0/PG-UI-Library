@@ -2,27 +2,30 @@ import pygame
 
 from .Utils import Box
 
+
 from .Style import Sheet
+from .Style import Theme
+
 from .Grid import Alignment
 from .Grid import Scale
 from .Grid import Fill
+from .Grid import Aspect
+
+
 
 class Widget:
-    def __init__(self, Parent, Style: Sheet, Name: str = "Widget", Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(10, 10)):
+    def __init__(self, Parent, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(10, 10), Name: str = "Widget", Style = None):
         self.Position = Position
         self.AbsolutePosition = Position
         self.Size = Size
         self.Rect = pygame.Rect(pygame.Vector2(0, 0), self.Size)
-        
-        self.Theme = None
-        self.Name = Name
-
+        self.Root = False
         self.Style = Style
+        self.Theme = Theme.Theme()
+        self.Name = Name
+        self.BG = None
+        
         self.State = "Idle"
-        self.Style.Apply(self)
-
-        self.MarginRect = pygame.Rect(self.Theme.Margin.left, self.Theme.Margin.top, Size.x - self.Theme.Margin.width, Size.y - self.Theme.Margin.height)
-        self.PaddingRect = pygame.Rect(self.Theme.Padding.left, self.Theme.Padding.top, Size.x - self.Theme.Padding.width, Size.y - self.Theme.Padding.height)
 
         self.Visible = True
         self.Ignore = False
@@ -30,12 +33,15 @@ class Widget:
         self.Scaled = None
         self.Docked = None
         self.Filled = None
+        self.Aspect = None
 
+        self.Interactive = False
         self.Hovered = False
         self.Focused = False
         self.Clicked = False
         self.Holding = False
-        
+        self.RelativeMouse = pygame.Vector2(0, 0)
+        self.MouseStart = pygame.Vector2(0, 0)
 
         self.Selected = False
 
@@ -45,19 +51,28 @@ class Widget:
             self.ZIndex = Parent.ZIndex + 1
             Parent.Children.append(self)
         
-        self.Parent: Widget = Parent
+        self.SetParent(Parent)
         self.Surface = pygame.Surface(self.Size, pygame.SRCALPHA)
         self.Children = []
   
     def __str__(self):
         Output = f"""
-        Parent: {self.Parent}
         ZIndex: {self.ZIndex}
         Position: {self.Position}
         Size: {self.Size}
         """
-
         return Output
+
+    def SetParent(self, Parent):
+        if Parent != None:
+            self.Parent = Parent
+            if self.Parent.Style != None:
+                self.Style = Parent.Style
+                self.Style.Apply(self)
+
+                self.MarginRect = pygame.Rect(self.Theme.Margin.left, self.Theme.Margin.top, self.Size.x - self.Theme.Margin.width, self.Size.y - self.Theme.Margin.height)
+                self.PaddingRect = pygame.Rect(self.Theme.Padding.left, self.Theme.Padding.top, self.Size.x - self.Theme.Padding.width, self.Size.y - self.Theme.Padding.height)
+            self.Surface = Parent.Surface
 
     def SetState(self, State):
         self.State = State
@@ -67,6 +82,12 @@ class Widget:
 
     def SetPosition(self, Position):
         self.Position = Position
+
+    def GetRoot(self):
+        if self.Root:
+            return self
+        else:
+            return self.Parent.GetRoot()
 
     def Absolute(self):
         self.Ignore = True
@@ -79,6 +100,12 @@ class Widget:
 
         return self
     
+    def Constrain(self, Aspect: Aspect):
+        Aspect.Apply(self)
+        self.Aspect = Aspect
+
+        return self
+
     def Scale(self, Scale: Scale):
         Scale.Apply(self)
         self.Scaled = Scale
@@ -100,9 +127,11 @@ class Widget:
         ## Hover Detection
         self.AbsolutePosition = self.Position + self.Parent.AbsolutePosition + self.Theme.Margin.center
 
-        PhysicalRect = pygame.Rect(self.AbsolutePosition, self.MarginRect.size)
+        PhysicalRect = pygame.Rect(self.AbsolutePosition, self.PaddingRect.size)
+        MousePos = pygame.mouse.get_pos()
+        self.RelativeMouse = pygame.Vector2(MousePos) - pygame.Vector2(self.AbsolutePosition)
 
-        if PhysicalRect.collidepoint(pygame.mouse.get_pos()):
+        if PhysicalRect.collidepoint(MousePos):
             self.Hovered = True
             self.SetState("Hover")
         else:
@@ -115,15 +144,20 @@ class Widget:
 
         if pygame.mouse.get_pressed()[0]:
             if self.Hovered:
+                if not self.Holding:
+                    self.MouseStart = pygame.Vector2(MousePos) - pygame.Vector2(self.AbsolutePosition)
+
                 self.Focused = True
                 self.Holding = True
                 self.SetState("Held")
             else:
+
                 self.Focused = False
         else:
             if self.Hovered and self.Holding:
                 self.Clicked = True
 
+            
             self.Holding = False
             if not self.Hovered:
                 self.SetState("Idle")
@@ -131,7 +165,11 @@ class Widget:
         ## apply the stylesheet (TODO: rewrite styling to be more html-ish)
         self.Theme = None # reset the theme so global styles can be overwritten.
         self.Style.Apply(self)
-        Box(self, self.Theme.Background)
+        if self.BG != None:
+            Box(self, self.BG)
+        else:
+            Box(self, self.Theme.Background)
+        #pygame.draw.rect(self.Surface, pygame.Color(255, 0, 0), PhysicalRect)
         
 
     def Update(self):
@@ -142,13 +180,17 @@ class Widget:
             self.Dock(self.Docked)
         if self.Filled:
             self.Fill(self.Filled)
+        if self.Aspect:
+            self.Constrain(self.Aspect)
 
         ## Update Children
         for Child in self.Children:
             Child: Widget
-
-            Child.Evaluate()
-            Child.Update()
+            try:
+                Child.Evaluate()
+                Child.Update()
+            except Exception as Error:
+                print(f"Update Failed: {Error}")
 
         ## Update Self
         self.Rect = pygame.Rect(pygame.Vector2(0, 0), self.Size)

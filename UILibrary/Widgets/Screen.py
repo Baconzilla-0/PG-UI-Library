@@ -7,12 +7,17 @@ from ..Widget import Widget as Widget
 class Screen(Widget):
     def __init__(self, Style: Sheet, Update = None):
         self.OnUpdate = Update
-        super().__init__(None, Style, pygame.Vector2(0, 0), pygame.Vector2(0, 0))
+        super().__init__(None, pygame.Vector2(0, 0), pygame.Vector2(0, 0), Style=Style)
 
-    def SetParent(self, Parent):
-        self.Parent = Parent
-        self.Style = Parent.Style
-        self.Surface = Parent.Surface
+        self.Root = True
+        self.FocusedWidget = None
+
+    def SetFocusedWidget(self, Widget: Widget):
+        #Widget.Focused = False
+        self.FocusedWidget = Widget
+
+    def GetFocusedWidget(self):
+        return self.FocusedWidget
 
     def Update(self):
         if self.OnUpdate != None:

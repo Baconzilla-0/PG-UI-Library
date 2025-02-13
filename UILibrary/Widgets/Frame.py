@@ -5,7 +5,7 @@ from .. import Utils
 
 class Frame(Widget):
     def __init__(self, Parent: Widget, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):
-        super().__init__(Parent, Parent.Style, Position, Size)
+        super().__init__(Parent, Position, Size)
 
     def Update(self):
         #Shift = self.ZIndex * self.Theme.ZIndexShift

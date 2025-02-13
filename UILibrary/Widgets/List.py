@@ -6,13 +6,13 @@ from .Button import Button as Button
 
 class List(Widget):
     def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
-        super().__init__(Parent, Parent.Style, Position, Size)
+        super().__init__(Parent, Position, Size)
 
     def Evaluate(self):
         super().Evaluate()
 
-        x_offset = 0
-        y_offset = 0
+        x_offset = self.PaddingRect.topleft[0] / 2
+        y_offset = self.PaddingRect.topleft[1] / 2
         
         highest = 0
 
@@ -22,7 +22,7 @@ class List(Widget):
             child.Docked = None
 
             if x_offset + child.Size.y > self.Size.x:
-                x_offset = 0
+                x_offset = self.PaddingRect.topleft[0] / 2
                 if previous != None:
                     y_offset += previous.Size.y
 

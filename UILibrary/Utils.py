@@ -9,20 +9,22 @@ def GetFile(Start, File: str):
         basedir = os.path.dirname(os.path.abspath(Start))
     return basedir + "/" + File
 
-def Box(Widget, Colour, Border = None):
+def Box(Widget, Colour, Border = None, Rect = None):
     if Border == None:
         Border = Widget.Theme.BorderColour
 
     #Rect = Widget.Surface.get_rect()
-    if Widget.Ignore:
-        Rect = Widget.Rect
-    else:
-        Rect = Widget.MarginRect
+    if Rect == None:
+        if Widget.Ignore:
+            Rect = Widget.Rect
+        else:
+            Rect = Widget.MarginRect
+
     pygame.draw.rect(Widget.Surface, Colour, Rect, 0, Widget.Theme.BorderRadius)
     pygame.draw.rect(Widget.Surface, Border, Rect, Widget.Theme.BorderWidth, Widget.Theme.BorderRadius)
 
 def Text(Surface: pygame.Surface, Text: str, Font: str, Colour: pygame.Color, Size: int, Position: pygame.Vector2): # A function to render text with a specified size, font, and position
-    FontFile = pygame.font.Font(Font, Size)
+    FontFile = pygame.font.Font(Font, int(Size))
     TextSurface = FontFile.render(Text, True, Colour)
     Surface.blit(TextSurface, Position)
 

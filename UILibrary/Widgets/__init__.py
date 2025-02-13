@@ -6,6 +6,11 @@ from .Frame import *
 from .Button import * # Button Types
 from .List import * # List Types
 from .Label import * # Text Types
-from .Image import * # Image Types
-from .Input import * # Input Types
 
+from .Image import * # Image Types
+#from .Animation import *
+
+from .Input import * # Input Types
+from .Tickbox import *
+from .Slider import *
+from .Colour import *
