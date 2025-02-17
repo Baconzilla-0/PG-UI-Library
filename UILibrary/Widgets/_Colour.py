@@ -17,14 +17,14 @@ class RGBPicker(Widget):
 
         self.ColourDisplay = Frame(self).Scale(Divisions.TW).Dock(Compass.E).Absolute()
         self.Container = List(self).Scale(Scale(pygame.Vector2(1.5, 1))).Dock(Compass.W).Absolute()
-        self.RSlider = Slider(self.Container, 1, 255, Handle = pygame.Color(255, 0, 0)).Scale(Divisions.WT).Dock(Compass.N)
-        self.GSlider = Slider(self.Container, 1, 255, Handle = pygame.Color(0, 255, 0)).Scale(Divisions.WT).Dock(Compass.C)
-        self.BSlider = Slider(self.Container, 1, 255, Handle = pygame.Color(0, 0, 255)).Scale(Divisions.WT).Dock(Compass.S)
-        #self.Slider.Ignore = True
+        self.RSlider = Slider(self.Container, 0, 255, Handle = pygame.Color(255, 0, 0)).Scale(Divisions.WT).Dock(Compass.NW)
+        self.GSlider = Slider(self.Container, 0, 255, Handle = pygame.Color(0, 255, 0)).Scale(Divisions.WT).Dock(Compass.W)
+        self.BSlider = Slider(self.Container, 0, 254, Handle = pygame.Color(0, 0, 255)).Scale(Divisions.WT).Dock(Compass.SW) # i dont wanna talk about it
+
+        self.ColourDisplay._Transparent = False
 
 
     def Update(self):
-        #Utils.Text(self.Surface, f"{self.Label} {self.Slider.Value.x}", self.Theme.Font, self.Theme.Foreground, (self.Size.y / 2) * 0.6, self.PaddingRect.topleft)
         
         self.Colour = pygame.Color(int(self.RSlider.Value.x), int(self.GSlider.Value.x), int(self.BSlider.Value.x))
         self.ColourDisplay.Theme.Background = self.Colour

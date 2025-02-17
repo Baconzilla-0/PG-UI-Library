@@ -16,7 +16,7 @@ class Input(Widget):
         self.Callback = Callback
 
     def Update(self, Event: pygame.event.Event = None):
-        self.Font = pygame.font.Font(self.Theme.Font, self.Size.y * self.FontScale)
+        self.Font = pygame.font.Font(self.Theme.Font, int(self.Size.y * self.FontScale))
 
         #if self.Hovered == False:
             #self.Surface.fill(self.Theme.InputIdle)
@@ -25,7 +25,7 @@ class Input(Widget):
         if self.Focused:
             #self.Surface.fill(self.Theme.InputFocused)
 
-            for Event in pygame.event.get():
+            for Event in self.GetRoot().Inputs.Events:
                 if Event != None:
                     if Event.type == pygame.KEYDOWN:
                         # Check for backspace

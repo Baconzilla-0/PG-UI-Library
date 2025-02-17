@@ -3,6 +3,8 @@ import pygame
 from ..Style import Sheet
 from ..Widgets._Screen import Screen
 
+from ..Inputs import Inputs
+
 class Widget:
     def __init__(self, Style: Sheet, Title: str, Size: pygame.Vector2, Position: pygame.Vector2 = pygame.Vector2(0, 0), Resize = True, Icon = None):
         self.Style = Style
@@ -14,7 +16,9 @@ class Widget:
         self.Size = Size
 
         self.Load()
-        
+        self.Inputs = Inputs(self)
+
+        self.Root = True
 
         self.Children = []
         self.Active = False
@@ -30,6 +34,12 @@ class Widget:
             Surface = pygame.image.load(self.Icon) 
             pygame.display.set_icon(Surface)
 
+    def GetRoot(self):
+        if self.Root:
+            return self
+        else:
+            print("something is very wrong.")
+
     def SetScreen(self, Screen: Screen):
         self.Screen = Screen
         Screen.SetParent(self)
@@ -40,13 +50,15 @@ class Widget:
         if self.Screen != None:
             while self.Active: 
                 #self.Surface.fill(self.Theme.Background) 
+                self.Inputs.Update()
                 self.Screen.Update()
 
                 pygame.display.update()
 
-                for event in pygame.event.get():
-    
-                    if event.type == pygame.QUIT:
+                for Event in self.Inputs.Events:
+                    Event: pygame.event.Event
+
+                    if Event.type == pygame.QUIT:
                         pygame.quit()
                         self.Active = False
             

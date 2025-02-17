@@ -14,12 +14,25 @@ class Slider(Widget):
         self.Maximum = Maximum
         self.Minimum = Minimum
         self.HandleSize = pygame.Vector2(20, 20)
+        self.AutoHandle = True
         self.InternalValue = pygame.Vector2(0, 0)
         self.Value = pygame.Vector2(Minimum, Minimum)
 
         self.Started = False
         self.Offset = (self.MouseStart - self.InternalValue)
         self.Interactive = True
+    
+    def SetValue(self, Value: pygame.Vector2):
+        XConstriant = self.Size.x - self.HandleSize.x
+        YConstriant = self.Size.y - self.HandleSize.y
+
+        XValue = abs((Value.x + self.Minimum) / (self.Maximum - self.Minimum))
+        YValue = abs((Value.y + self.Minimum) / (self.Maximum - self.Minimum))
+
+        #print(XValue, XConstriant, YValue, YConstriant)
+
+        self.InternalValue.x = XValue * XConstriant
+        self.InternalValue.y = YValue * YConstriant
 
     def MoveHandle(self, Position: pygame.Vector2):
         XPos = max(0, min(self.MarginRect.width - self.HandleSize.x, Position.x))
@@ -37,28 +50,30 @@ class Slider(Widget):
                 self.Offset = (self.MouseStart - self.InternalValue)
 
             self.Started = True
-            self.MoveHandle(self.RelativeMouse )
+            self.MoveHandle(self.RelativeMouse)
         else:
             self.Started = False
 
             
     def Update(self):
-        self.HandleSize = pygame.Vector2(self.PaddingRect.height + 5, self.PaddingRect.height + 5)
+        if self.AutoHandle:
+            self.HandleSize = pygame.Vector2(self.PaddingRect.height + 5, self.PaddingRect.height + 5)
+
         Helpers.Box(self, self.Handle, Rect=pygame.Rect(self.InternalValue, self.HandleSize))
         
-        HalfHandleX = self.HandleSize.x / 2
-        XConstriant = (HalfHandleX, self.MarginRect.width - self.HandleSize.x)
-        XValue = self.InternalValue.x / XConstriant[1]
-        ScaledX = XValue * self.Maximum
+        
+        XConstriant = self.Size.x - self.HandleSize.x
+        YConstriant = self.Size.y - self.HandleSize.y
 
-        HalfHandleY = self.HandleSize.y / 2
-        YConstriant = (HalfHandleY, self.MarginRect.width - self.HandleSize.y)
-        YValue = self.InternalValue.y / YConstriant[1]
-        ScaledY = YValue * self.Maximum
+        if YConstriant != 0 and XConstriant != 0:
+            XValue = (self.InternalValue.x / XConstriant) * (self.Maximum - self.Minimum) + self.Minimum
+            YValue = (self.InternalValue.y / YConstriant) * (self.Maximum - self.Minimum) + self.Minimum
 
-        self.Value = pygame.Vector2(ScaledX, ScaledY)
+            self.Value = pygame.Vector2(XValue, YValue)
 
         super().Update()
+
+
 
 class LabeledSlider(Widget):
     def __init__(self, Parent, Label, Minimum=0, Maximum=100, Position=pygame.Vector2(10, 10), Size=pygame.Vector2(100, 100)):

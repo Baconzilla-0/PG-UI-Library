@@ -9,7 +9,7 @@ class Screen(Widget):
         self.OnUpdate = Update
         super().__init__(None, pygame.Vector2(0, 0), pygame.Vector2(0, 0), Style=Style)
 
-        self.Root = True
+        #self.Root = True
         self.FocusedWidget = None
 
     def SetFocusedWidget(self, Widget: Widget):
