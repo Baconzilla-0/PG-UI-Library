@@ -1,11 +1,12 @@
 import pygame
 
-from ..Widget import Widget as Widget
+from ..Components import Widget as Widget
 from .. import Helpers
 
 class Frame(Widget):
     def __init__(self, Parent: Widget, Position: pygame.Vector2 = pygame.Vector2(10, 10), Size: pygame.Vector2 = pygame.Vector2(100, 100)):
         super().__init__(Parent, Position, Size)
+        self.Interactive = False
 
     def Update(self):
         #Shift = self.ZIndex * self.Theme.ZIndexShift

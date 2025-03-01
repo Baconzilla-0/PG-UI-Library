@@ -17,6 +17,7 @@ class Fill:
                     Y -= self.Directions.y * Child.Size.y
 
             Size = pygame.Vector2(X, Y)
+
             Widget.SetSize(Size)
         except:
             pass

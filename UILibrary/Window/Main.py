@@ -1,9 +1,12 @@
 import pygame
+from pygame._sdl2.video import Window as PWindow
 
 from ..Style import Sheet
 from ..Widgets._Screen import Screen
 
 from ..Inputs import Inputs
+
+from .. import Helpers
 
 class Widget:
     def __init__(self, Style: Sheet, Title: str, Size: pygame.Vector2, Position: pygame.Vector2 = pygame.Vector2(0, 0), Resize = True, Icon = None):
@@ -14,6 +17,8 @@ class Widget:
         self.Title = Title
         self.Icon = Icon
         self.Size = Size
+
+        self.Clock = pygame.time.Clock()
 
         self.Load()
         self.Inputs = Inputs(self)
@@ -29,6 +34,8 @@ class Widget:
     def Load(self):
         self.Surface = pygame.display.set_mode(self.Size, self.Resize) 
         pygame.display.set_caption(self.Title) 
+
+        self.SDL = PWindow.from_display_module()
         
         if self.Icon != None:
             Surface = pygame.image.load(self.Icon) 
@@ -53,7 +60,11 @@ class Widget:
                 self.Inputs.Update()
                 self.Screen.Update()
 
+                FPS = self.Clock.get_fps()
+                Helpers.Text(self.Surface, str(FPS), Helpers.GetFile(__file__, "../../assets/papyrus.ttf"), pygame.Color(255, 0, 0), pygame.Vector2(10, 10), pygame.Vector2(100, 100))
                 pygame.display.update()
+
+                self.Clock.tick(60)
 
                 for Event in self.Inputs.Events:
                     Event: pygame.event.Event

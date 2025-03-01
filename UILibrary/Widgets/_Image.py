@@ -1,39 +1,22 @@
 import pygame
+import os
 
-from ..Widget import Widget as Widget
+from ..Components import Widget as Widget
+from ..Components import ImageWidget
+from .. import Helpers
 
-
-class Image(Widget):
+class Image(ImageWidget):
     def __init__(self, Parent: Widget, File, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
         super().__init__(Parent, Position, Size)
-        self.Resize = True
-        self.File = File
-        self.Image = pygame.image.load(self.File).convert_alpha()
-
-    def ScaleImage(self):
-        if self.Resize:
-            self.Image = pygame.transform.scale(self.Image, (abs(self.MarginRect.width), abs(self.MarginRect.height)))
-
-    def SetFile(self, File):
-        self.File = File
-        self.Image = pygame.image.load(self.File).convert_alpha()
-        self.ScaleImage()
-
-    def SetSize(self, Size: pygame.Vector2):
-        super().SetSize(Size)
-        self.Image = pygame.image.load(self.File).convert_alpha()
-        self.ScaleImage()
-
-    def Evaluate(self):
-        self.ScaleImage()
-        return super().Evaluate()
+        self.SetFile(File)
 
     def Update(self):
-        self.Surface.blit(self.Image, pygame.Vector2(0, 0))
+        
         super().Update()
 
 
 class Animation(Widget):
+    
     def __init__(self, Parent: Widget, File, FrameHeight: int, FrameTime: int, Callback, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
         super().__init__(Parent, Position, Size)
         self.Frame = 0
@@ -45,10 +28,12 @@ class Animation(Widget):
         self.File = File
         self.Image = pygame.image.load(self.File).convert_alpha() #.set_colorkey(pygame.Color(0, 0, 0, 0))
         self.Frames = self.Image.get_height() // self.FrameHeight
+
     def SetFile(self, File):
         self.File = File
         self.Image = pygame.image.load(self.File)
         self.Frames = self.Image.get_height() // self.FrameHeight
+
     def Update(self):
         self.Time += 1
         if self.Frame >= self.Frames:
@@ -62,7 +47,10 @@ class Animation(Widget):
         if self.Time >= self.FrameTime:
             self.Frame += 1
             self.Time = 0
+        #try:
         Image = pygame.transform.scale(Image, self.Size)
+        #except:
+        #    pass
         #Image.set_colorkey(pygame.Color(0, 0, 0, 255))
         #self.Surface.fill(pygame.Color(255, 0, 0, 0))
         self.Surface.blit(Image, pygame.Vector2(0, 0), special_flags=pygame.BLEND_ALPHA_SDL2)

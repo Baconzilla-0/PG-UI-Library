@@ -1,5 +1,7 @@
 import pygame
 
+Cache = {}
+
 import sys, os
 
 def GetFile(Start, File: str):
@@ -23,27 +25,60 @@ def Box(Widget, Colour, Border = None, Rect = None):
     pygame.draw.rect(Widget.Surface, Colour, Rect, 0, Widget.Theme.BorderRadius)
     pygame.draw.rect(Widget.Surface, Border, Rect, Widget.Theme.BorderWidth, Widget.Theme.BorderRadius)
 
-def Text(Surface: pygame.Surface, Text: str, Font: str, Colour: pygame.Color, Size: int, Position: pygame.Vector2): # A function to render text with a specified size, font, and position
-    FontFile = pygame.font.Font(Font, int(Size))
+
+def Text(Surface: pygame.Surface, Text: str, Font: str, Colour: pygame.Color, Position: pygame.Vector2, Area = None): # A function to render text with a specified size, font, and position
+    if Area == None:
+        Area = Surface.get_size()
+
+    px = (Area[1] - Position[1]) * ( 72 / 96 ) 
+    
+    try:
+        FontFile = Cache[Font][int(px)]
+    except:
+        FontFile = pygame.font.Font(Font, int(px))
+        try:
+            Cache[Font][str(int(px))] = FontFile
+        except:
+            Cache[Font] = {}
+            Cache[Font][str(int(px))] = FontFile
+
+    Width = 0
+    for Char in Text:
+        Individual = FontFile.size(Char)[0]
+        Width += Individual
+
+    Scale =  px / Width
+    
+    Goal = Area[0] - (Position[0] * 2)
+    if Width > Goal:
+        try:
+            FontFile = Cache[Font][str(int(Scale * Goal))]
+        except:
+            FontFile = pygame.font.Font(Font, int(Scale * Goal))
+            Cache[Font][str(int(Scale * Goal))] = FontFile
+        #FontFile = pygame.font.Font(Font, int(Scale * Goal))
+        #Cache[Font][int(Scale * Goal)]
+
     TextSurface = FontFile.render(Text, True, Colour)
     Surface.blit(TextSurface, Position)
 
-def blit_text(surface: pygame.Surface, text, pos, font: pygame.font.Font, color: pygame.Color, area: pygame.Rect):
 
-    words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
-    space = font.size(' ')[0]  # The width of a space.
-    max_width, max_height = area.width, area.height
-    x, y = pos
+def blit_text(Surface: pygame.Surface, Text: str, Pos, Font: pygame.font.Font, Colour: pygame.Color, Area: pygame.Rect):
+
+    words = [word.split(' ') for word in Text.splitlines()]  # 2D array where each row is a list of words.
+    space = Font.size(' ')[0]  # The width of a space.
+    max_width, max_height = Area.width, Area.height
+    x, y = Pos
     for line in words:
         for word in line:
-            word_surface = font.render(word, True, color)
+            word_surface = Font.render(word, True, Colour)
             word_width, word_height = word_surface.get_size()
             if x + word_width >= max_width:
-                x = pos[0]  # Reset the x.
+                x = Pos[0]  # Reset the x.
                 y += word_height  # Start on new row.
-            surface.blit(word_surface, (x + area.left, y + area.top))
+            Surface.blit(word_surface, (x + Area.left, y + Area.top))
             x += word_width + space
-        x = pos[0]  # Reset the x.
+        x = Pos[0]  # Reset the x.
         y += word_height  # Start on new row.
 
 def TextWrapped(Surface: pygame.Surface, Text: str, Font: pygame.font.Font, Colour: pygame.Color, Area: pygame.Rect):

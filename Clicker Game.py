@@ -8,7 +8,6 @@ import UILibrary.Style as Style
 from UILibrary.Grid import *
 
 
-
 pygame.init()
 
 # Define the initial score

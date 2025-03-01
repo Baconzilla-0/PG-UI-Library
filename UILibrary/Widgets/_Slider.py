@@ -2,7 +2,7 @@ import pygame
 import math
 
 from .. import Helpers
-from ..Widget import Widget as Widget
+from ..Components import Widget as Widget
 from ..Grid import Compass, Constraints, Divisions
 
 
@@ -85,6 +85,6 @@ class LabeledSlider(Widget):
         self.Label = Label
 
     def Update(self):
-        Helpers.Text(self.Surface, f"{self.Label} {self.Slider.Value.x}", self.Theme.Font, self.Theme.Foreground, (self.Size.y / 2) * 0.6, self.PaddingRect.topleft)
+        Helpers.Text(self.Surface, f"{self.Label} {self.Slider.Value.x}", self.Theme.Font, self.Theme.Foreground, self.PaddingRect.topleft, (self.Size.x, self.PaddingRect.height - (self.Slider.MarginRect.height)))
         self.Slider.Update()
         super().Update()

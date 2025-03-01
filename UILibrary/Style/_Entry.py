@@ -40,18 +40,18 @@ class Entry:
 
     def Apply(self, Widget):
         Name = Widget.__class__.__name__
-
-        if Widget.Name == self.TargetName or Name == self.TargetClass:
-            if self.State == "Any":
-                self.ApplyAttributes(Widget)
-            elif Widget.State == self.State:
-                self.ApplyAttributes(Widget)
-        #if Widget.Theme == None:
-        
-        else:
-            if self.TargetClass == "Any":
+        if self.TargetName == None:
+            if Name == self.TargetClass or self.TargetClass == "Any":
                 if self.State == "Any":
                     self.ApplyAttributes(Widget)
-                elif Widget.State == self.State:
+                elif Widget._State == self.State:
                     self.ApplyAttributes(Widget)
+                    
+        elif Widget._Name == self.TargetName:
+            if Name == self.TargetClass or self.TargetClass == "Any":
+                if self.TargetClass == "Any":
+                    if self.State == "Any":
+                        self.ApplyAttributes(Widget)
+                    elif Widget._State == self.State:
+                        self.ApplyAttributes(Widget)
         

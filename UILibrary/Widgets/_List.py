@@ -1,12 +1,13 @@
 import pygame
 import math
 
-from ..Widget import Widget as Widget
+from ..Components import Widget as Widget
 from ._Button import Button as Button
 
 class List(Widget):
     def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
         super().__init__(Parent, Position, Size)
+        self.Interactive = False
 
     def Evaluate(self):
         super().Evaluate()
@@ -21,7 +22,7 @@ class List(Widget):
             child: Widget
             child.Docked = None
 
-            if x_offset + child.Size.y > self.Size.x:
+            if x_offset + child.Size.x > self.Size.x:
                 x_offset = self.PaddingRect.topleft[0] / 2
                 if previous != None:
                     y_offset += previous.Size.y
@@ -61,6 +62,7 @@ class Panel(List):
 class ScrollList(List):
     def __init__(self, Parent: Widget, Position=pygame.Vector2(10, 10), Size=pygame.Vector2(100, 100), ScrollSpeed=20):
         super().__init__(Parent, Position, Size)
+        self.Interactive = True
         self.ScrollSpeed = ScrollSpeed
         self.ScrollOffset = 0
         self.ScrollVelocity = 0

@@ -1,4 +1,4 @@
-from ..Widget import Widget
+from ..Components import Widget
 from ..Widgets import TextButton
 
 

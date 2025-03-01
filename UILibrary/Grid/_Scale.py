@@ -20,10 +20,8 @@ class Scale:
             else:
                 X = Widget.Size.x
 
-            
-            
-
             Size = pygame.Vector2(X, Y)
+
             Widget.SetSize(Size)
         except:
             pass

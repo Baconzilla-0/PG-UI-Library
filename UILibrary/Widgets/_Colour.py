@@ -2,7 +2,7 @@ import pygame
 import math
 
 from .. import Helpers
-from ..Widget import Widget as Widget
+from ..Components import Widget as Widget
 from ..Grid import Compass, Constraints, Divisions
 from ..Grid import Scale
 

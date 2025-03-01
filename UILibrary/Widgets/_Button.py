@@ -1,18 +1,36 @@
 import pygame
+from pygame import Vector2, Color
+
 import math
 
 from .. import Helpers
-from ..Widget import Widget as Widget
+from ..Components import Widget
+from ..Components import TextWidget
+from ..Components import ImageWidget
 
 
 class Button(Widget):
-    def __init__(self, Parent: Widget, Callback = None, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
+    def __init__(self, Parent: Widget, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
         super().__init__(Parent, Position, Size)
+        self.Interactive = True
 
-        self.Callback = Callback
+    def Evaluate(self):
+        super().Evaluate()
 
-    def SetCallback(self, Callback):
-        self.Callback = Callback
+        if self.Clicked:
+            if self.Callback:
+                self.Callback()
+            
+    def Update(self):
+        super().Update()
+
+
+class TextButton(TextWidget):
+    def __init__(self, Parent, Text = "Text", Position = Vector2(10, 10), Size = Vector2(100, 100)):
+        super().__init__(Parent, Position, Size)
+        self.Interactive = True
+
+        self.SetText(Text)
 
     def Evaluate(self):
         super().Evaluate()
@@ -21,63 +39,26 @@ class Button(Widget):
             if self.Callback:
                 self.Callback()
 
-        '''
-        if self.Holding:
-            
-            Utils.Box(self, self.Theme.ButtonPressed)
-
-        
-
-        elif self.Hovered:
-            Utils.Box(self, self.Theme.ButtonHovered)
-
-        else:
-            Utils.Box(self, self.Theme.ButtonIdle)
-
-        if self.Selected:
-            Utils.Box(self, self.Theme.Selected)
-        '''
-            
     def Update(self):
+
         super().Update()
 
 
-class TextButton(Button):
-    def __init__(self, Parent: Widget, Text, FontScale, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
-        super().__init__(Parent, None, Position, Size)
+class ImageButton(ImageWidget):
+    def __init__(self, Parent: Widget, File, Position = Vector2(10, 10), Size = Vector2(100, 100)):
+        super().__init__(Parent, Position, Size)
+        self.Interactive = True
 
-        self.FontScale = FontScale
-        self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
+        self.SetFile(File)
 
-        self.Text = Text
-
-    def SetText(self, Text: str):
-        self.Text = Text
-
-    def Update(self):
+    def Evaluate(self):
         super().Evaluate()
 
-        self.Font = pygame.font.Font(self.Theme.Font, math.floor(self.Size.y * self.FontScale))
-        Helpers.blit_text(self.Surface, self.Text, pygame.Vector2(0,0), self.Font, self.Theme.Foreground, self.PaddingRect)
-        super().Update()
-
-
-class ImageButton(Button):
-    def __init__(self, Parent: Widget, File, Position = pygame.Vector2(10, 10), Size = pygame.Vector2(100, 100)):
-        super().__init__(Parent, None, Position, Size)
-        self.File = File
-
-    def SetFile(self, File):
-        self.File = File
+        if self.Clicked:
+            if self.Callback:
+                self.Callback()
 
     def Update(self):
-        super().Evaluate()
-
-        Image = pygame.image.load(self.File)
-        Image = pygame.transform.scale(Image, (abs(self.Size.x), abs(self.Size.y)))
-
-        self.Surface.blit(Image, pygame.Vector2(0, 0))
-        
         super().Update()
 
 
